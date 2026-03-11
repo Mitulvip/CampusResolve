@@ -7,6 +7,7 @@ export interface IStorage {
   getComplaint(id: number): Promise<Complaint | undefined>;
   createComplaint(complaint: InsertComplaint): Promise<Complaint>;
   resolveComplaint(id: number): Promise<Complaint | undefined>;
+  upvoteComplaint(id: number): Promise<Complaint | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -28,6 +29,17 @@ export class DatabaseStorage implements IStorage {
     const [complaint] = await db
       .update(complaints)
       .set({ status: 'resolved' })
+      .where(eq(complaints.id, id))
+      .returning();
+    return complaint;
+  }
+
+  async upvoteComplaint(id: number): Promise<Complaint | undefined> {
+    const existing = await this.getComplaint(id);
+    if (!existing) return undefined;
+    const [complaint] = await db
+      .update(complaints)
+      .set({ votes: existing.votes + 1 })
       .where(eq(complaints.id, id))
       .returning();
     return complaint;

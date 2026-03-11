@@ -39,6 +39,15 @@ export async function registerRoutes(
     res.json(updated);
   });
 
+  app.patch(api.complaints.upvote.path, async (req, res) => {
+    const id = Number(req.params.id);
+    const updated = await storage.upvoteComplaint(id);
+    if (!updated) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+    res.json(updated);
+  });
+
   // Call seedDatabase once
   await seedDatabase();
 

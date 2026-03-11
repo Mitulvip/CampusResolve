@@ -1,9 +1,17 @@
 import { useState } from "react";
+import { differenceInDays } from "date-fns";
 import { Layout } from "@/components/Layout";
 import { ComplaintCard } from "@/components/ComplaintCard";
 import { useComplaints } from "@/hooks/use-complaints";
 import { Loader2, ShieldCheck, FilterX } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+function calculatePriority(complaint: any): number {
+  const createdDate = new Date(complaint.createdAt);
+  const daysOld = differenceInDays(new Date(), createdDate);
+  const agingFactor = daysOld / 2;
+  return complaint.votes + agingFactor;
+}
 
 export default function AdminDashboard() {
   const { data: complaints, isLoading } = useComplaints();
@@ -13,6 +21,10 @@ export default function AdminDashboard() {
     if (filter === "all") return true;
     return c.status === filter;
   });
+
+  const sortedComplaints = filteredComplaints
+    ? [...filteredComplaints].sort((a, b) => calculatePriority(b) - calculatePriority(a))
+    : [];
 
   const pendingCount = complaints?.filter(c => c.status === "pending").length || 0;
   const resolvedCount = complaints?.filter(c => c.status === "resolved").length || 0;
@@ -62,7 +74,7 @@ export default function AdminDashboard() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {filteredComplaints.map((complaint, i) => (
+          {sortedComplaints.map((complaint, i) => (
             <ComplaintCard 
               key={complaint.id} 
               complaint={complaint} 

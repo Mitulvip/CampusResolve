@@ -40,6 +40,14 @@ export const api = {
         404: errorSchemas.notFound,
       },
     },
+    upvote: {
+      method: 'PATCH' as const,
+      path: '/api/complaints/:id/upvote' as const,
+      responses: {
+        200: z.custom<typeof complaints.$inferSelect>(),
+        404: errorSchemas.notFound,
+      },
+    },
   },
 };
 

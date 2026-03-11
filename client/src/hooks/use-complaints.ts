@@ -90,3 +90,30 @@ export function useResolveComplaint() {
     },
   });
 }
+
+export function useUpvoteComplaint() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const url = buildUrl(api.complaints.upvote.path, { id });
+      const res = await fetch(url, {
+        method: api.complaints.upvote.method,
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        if (res.status === 404) throw new Error("Complaint not found");
+        throw new Error("Failed to upvote complaint");
+      }
+
+      return api.complaints.upvote.responses[200].parse(await res.json());
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.complaints.list.path] });
+    },
+    onError: (error: Error) => {
+      console.error("Upvote failed:", error.message);
+    },
+  });
+}

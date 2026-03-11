@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { differenceInDays } from "date-fns";
 import { insertComplaintSchema } from "@shared/schema";
 import { useComplaints, useCreateComplaint } from "@/hooks/use-complaints";
 import { Layout } from "@/components/Layout";
@@ -27,6 +28,13 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+function calculatePriority(complaint: any): number {
+  const createdDate = new Date(complaint.createdAt);
+  const daysOld = differenceInDays(new Date(), createdDate);
+  const agingFactor = daysOld / 2;
+  return complaint.votes + agingFactor;
+}
+
 export default function StudentPortal() {
   const { data: complaints, isLoading } = useComplaints();
   const createMutation = useCreateComplaint();
@@ -47,6 +55,10 @@ export default function StudentPortal() {
       }
     });
   };
+
+  const sortedComplaints = complaints
+    ? [...complaints].sort((a, b) => calculatePriority(b) - calculatePriority(a))
+    : [];
 
   return (
     <Layout>
@@ -164,7 +176,7 @@ export default function StudentPortal() {
             </div>
           ) : (
             <div className="space-y-4">
-              {complaints.map((complaint, i) => (
+              {sortedComplaints.map((complaint, i) => (
                 <ComplaintCard 
                   key={complaint.id} 
                   complaint={complaint} 
