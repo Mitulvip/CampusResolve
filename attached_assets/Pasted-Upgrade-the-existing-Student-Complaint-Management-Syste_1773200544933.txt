@@ -1,0 +1,120 @@
+Upgrade the existing Student Complaint Management System into a highly polished and professional campus platform while keeping all current functionality working.
+
+Do not remove any existing features. Only enhance and extend them.
+
+CORE PRIORITY SYSTEM
+
+Improve complaint prioritization using both voting and an aging mechanism.
+
+priorityScore = votes + agingFactor
+
+agingFactor = hours since complaint was created / 6
+
+This ensures that every 6 hours unresolved complaints gradually increase in priority so older issues are not ignored.
+
+Complaints must automatically sort by priorityScore so the most urgent issues appear first.
+
+Priority Colors:
+Green → Low priority
+Yellow → Medium priority
+Red → High priority
+
+HIGH QUALITY FRONTEND UI (VERY IMPORTANT)
+
+Redesign the frontend so it looks like a modern professional SaaS dashboard similar to real production systems.
+
+Use modern UI styling such as Tailwind CSS and clean component layouts.
+
+The UI must look visually impressive and professional with:
+
+• Proper spacing and alignment
+• Card-based layouts
+• Smooth hover effects
+• Good typography
+• Consistent color scheme
+• Responsive layout for different screen sizes
+
+Add a top navigation bar containing:
+
+Campus Complaint Hub (logo/title)
+
+Student Portal
+
+Admin Dashboard
+
+COMPLAINT CARD DESIGN
+
+Each complaint should be displayed as a modern card containing:
+
+• Complaint title
+• Description
+• Category icon
+• Vote button with animated feedback
+• Vote count
+• Priority badge (green/yellow/red)
+• Time indicator (e.g., "submitted 3 hours ago")
+• Complaint status badge (Pending / Resolved)
+
+Cards should have shadows, spacing, and hover effects.
+
+DASHBOARD ANALYTICS
+
+Add a statistics section at the top displaying:
+
+• Total complaints
+• Pending complaints
+• Resolved complaints
+• High priority complaints
+
+Display these as attractive statistic cards.
+
+IMPROVED COMPLAINT SUBMISSION FORM
+
+Improve the complaint form with:
+
+• Icons inside input fields
+• Proper spacing and layout
+• Input validation
+• Responsive design
+• Clean modern styling
+
+ADMIN DASHBOARD FEATURES
+
+Create a dedicated admin dashboard where administrators can:
+
+• View all complaints
+• Sort complaints by priorityScore
+• Filter complaints by category
+• Filter complaints by priority
+• Mark complaints as resolved
+• Quickly identify high priority complaints
+
+ADDITIONAL SMART FEATURES
+
+Trending Complaints Section
+Display the most upvoted complaints.
+
+Complaint Search
+Allow searching complaints by keywords.
+
+Category Filters
+Infrastructure, Academics, Facilities, Other.
+
+Duplicate Complaint Detection
+If a similar complaint already exists, suggest upvoting instead of creating a duplicate complaint.
+
+UI Feedback
+Show success notifications and loading indicators when submitting complaints or voting.
+
+Smooth UI Animations
+Add simple animations for voting, cards, and dashboard transitions.
+
+GENERAL REQUIREMENTS
+
+• Keep the code modular and clean.
+• Maintain the existing backend routes and database schema.
+• Ensure the UI looks modern, clean, and professional.
+• Ensure the system remains stable and fully functional.
+
+Goal:
+Transform this project into a professional university-level complaint management platform with strong frontend UI, smart prioritization using voting and hourly aging logic, and useful administrative tools.
